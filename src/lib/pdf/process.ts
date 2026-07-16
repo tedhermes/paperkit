@@ -21,11 +21,6 @@ export async function splitPDF(
   return results;
 }
 
-export async function extractPage(file: File, pageNum: number): Promise<Uint8Array> {
-  const [result] = await splitPDF(file, [{ start: pageNum, end: pageNum }]);
-  return result;
-}
-
 export async function mergePDFs(files: File[]): Promise<Uint8Array> {
   const mergedDoc = await PDFDocument.create();
 

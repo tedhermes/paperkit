@@ -108,18 +108,5 @@
   }
   .actions button:hover:not(:disabled) { background: var(--bg); }
   .actions button:disabled { opacity: 0.3; cursor: not-allowed; }
-  .btn-primary {
-    width: 100%;
-    padding: 0.85rem;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: var(--radius);
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
-  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
 </style>
