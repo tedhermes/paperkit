@@ -1,6 +1,7 @@
 <script lang="ts">
   import DropZone from '$lib/components/DropZone.svelte';
   import ToolLayout from '$lib/components/ToolLayout.svelte';
+  import PageThumbnail from '$lib/components/PageThumbnail.svelte';
   import { splitPDF, downloadBlob } from '$lib/pdf/process';
   import { PDFDocument } from 'pdf-lib';
 
@@ -35,8 +36,23 @@
     selectedPages = next;
   }
 
+  let outputSummary = $derived.by(() => {
+    if (rangeMode === 'all') {
+      return `Output: ${totalPages} separate file${totalPages !== 1 ? 's' : ''}`;
+    } else if (rangeMode === 'selected') {
+      if (selectedPages.size === 0) return 'Output: 0 files';
+      return `Output: ${selectedPages.size} separate file${selectedPages.size !== 1 ? 's' : ''}`;
+    } else {
+      const from = Math.min(rangeStart, rangeEnd);
+      const to = Math.max(rangeStart, rangeEnd);
+      const count = Math.min(to, totalPages) - Math.min(from, totalPages) + 1;
+      return `Output: 1 file (pages ${from}\u2013${to})`;
+    }
+  });
+
   async function handleSplit() {
     if (!file) return;
+    const currentFile = file;
     processing = true;
     error = null;
 
@@ -50,12 +66,12 @@
     }
 
     try {
-      const results = await splitPDF(file, ranges);
+      const results = await splitPDF(currentFile, ranges);
       if (results.length === 1) {
-        downloadBlob(results[0], `split-${file.name}`);
+        downloadBlob(results[0], `split-${currentFile.name}`);
       } else {
         results.forEach((data, i) => {
-          downloadBlob(data, `split-${i + 1}-${file.name}`);
+          downloadBlob(data, `split-${i + 1}-${currentFile.name}`);
         });
       }
     } catch {
@@ -81,30 +97,58 @@
       <button onclick={clearFile} class="btn-ghost">Remove</button>
     </div>
 
-    <div class="mode-select">
-      <label><input type="radio" bind:group={rangeMode} value="all" /> All pages (one file per page)</label>
-      <label><input type="radio" bind:group={rangeMode} value="selected" /> Select pages</label>
-      <label><input type="radio" bind:group={rangeMode} value="range" /> Page range</label>
+    <div class="pill-group">
+      <button
+        class="pill"
+        class:active={rangeMode === 'all'}
+        onclick={() => rangeMode = 'all'}
+      >All pages</button>
+      <button
+        class="pill"
+        class:active={rangeMode === 'selected'}
+        onclick={() => rangeMode = 'selected'}
+      >Select pages</button>
+      <button
+        class="pill"
+        class:active={rangeMode === 'range'}
+        onclick={() => rangeMode = 'range'}
+      >Page range</button>
     </div>
 
-    {#if rangeMode === 'selected'}
-      <div class="page-grid">
+    {#if rangeMode === 'all'}
+      <p class="summary-text">All pages — each page becomes its own file.</p>
+      <div class="thumb-grid">
         {#each Array.from({ length: totalPages }, (_, i) => i + 1) as n}
-          <button
-            class="page-btn"
-            class:selected={selectedPages.has(n)}
-            onclick={() => togglePage(n)}
-          >
-            {n}
-          </button>
+          <PageThumbnail {file} pageNum={n} width={130} />
+        {/each}
+      </div>
+    {:else if rangeMode === 'selected'}
+      <p class="summary-text">Select pages (each selected page becomes its own file).</p>
+      <div class="thumb-grid">
+        {#each Array.from({ length: totalPages }, (_, i) => i + 1) as n}
+          <PageThumbnail
+            {file}
+            pageNum={n}
+            width={130}
+            selected={selectedPages.has(n)}
+            onClick={() => togglePage(n)}
+          />
         {/each}
       </div>
     {:else if rangeMode === 'range'}
       <div class="range-inputs">
-        <label>From: <input type="number" bind:value={rangeStart} min="1" max={totalPages} /></label>
-        <label>To: <input type="number" bind:value={rangeEnd} min="1" max={totalPages} /></label>
+        <label>
+          From:
+          <input type="number" bind:value={rangeStart} min="1" max={totalPages} />
+        </label>
+        <label>
+          To:
+          <input type="number" bind:value={rangeEnd} min="1" max={totalPages} />
+        </label>
       </div>
     {/if}
+
+    <p class="output-summary">{outputSummary}</p>
 
     {#if error}
       <div class="error-msg">{error}</div>
@@ -137,57 +181,58 @@
     font-size: 0.85rem;
     font-weight: 500;
   }
-  .mode-select {
+  .pill-group {
     display: flex;
-    flex-direction: column;
     gap: 0.5rem;
     margin-bottom: 1.5rem;
   }
-  .mode-select label {
-    font-size: 0.9rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .page-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-  }
-  .page-btn {
-    width: 44px;
-    height: 44px;
+  .pill {
+    padding: 0.5rem 1.25rem;
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: 999px;
     background: var(--surface);
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 500;
     transition: all 0.15s;
+    font-family: inherit;
   }
-  .page-btn:hover { border-color: var(--accent); }
-  .page-btn.selected {
+  .pill:hover { border-color: var(--accent); }
+  .pill.active {
     background: var(--accent);
     color: white;
     border-color: var(--accent);
+  }
+  .summary-text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+  .output-summary {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .thumb-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
   }
   .range-inputs {
     display: flex;
     gap: 1rem;
     margin-bottom: 1.5rem;
   }
-  .range-inputs label { font-size: 0.9rem; }
+  .range-inputs label { font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; }
   .range-inputs input {
     width: 80px;
     padding: 0.4rem 0.5rem;
     border: 1px solid var(--border);
     border-radius: 6px;
     font-size: 0.9rem;
-    margin-left: 0.4rem;
   }
-
   .error-msg {
     background: #fef2f2;
     color: #dc2626;
@@ -200,5 +245,4 @@
   @media (max-width: 640px) {
     .range-inputs { flex-direction: column; }
   }
-
 </style>

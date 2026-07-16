@@ -1,6 +1,7 @@
 <script lang="ts">
   import DropZone from '$lib/components/DropZone.svelte';
   import ToolLayout from '$lib/components/ToolLayout.svelte';
+  import PageThumbnail from '$lib/components/PageThumbnail.svelte';
   import { reorderPages, downloadBlob, validateFileSize } from '$lib/pdf/process';
   import { PDFDocument } from 'pdf-lib';
 
@@ -68,11 +69,13 @@
       <button onclick={clearFile} class="btn-ghost">Remove</button>
     </div>
 
-    <div class="page-list">
+    <div class="page-order-list">
       {#each pageOrder as page, i}
         <div class="file-row">
-          <span class="index">{i + 1}</span>
-          <span class="page-label">Page {page}</span>
+          <div class="thumb-col">
+            <PageThumbnail {file} pageNum={page} width={100} />
+          </div>
+          <span class="page-label">Page {page} of {totalPages}</span>
           <div class="actions">
             <button onclick={() => moveUp(i)} disabled={i === 0} title="Move up" aria-label="Move up">↑</button>
             <button onclick={() => moveDown(i)} disabled={i === pageOrder.length - 1} title="Move down" aria-label="Move down">↓</button>
@@ -112,11 +115,11 @@
     font-size: 0.85rem;
     font-weight: 500;
   }
-  .page-list {
+  .page-order-list {
     margin: 1.5rem 0;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
   }
   .file-row {
     display: flex;
@@ -125,19 +128,10 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 0.6rem 1rem;
+    padding: 0.5rem 1rem;
   }
-  .index {
-    width: 24px;
-    height: 24px;
-    background: var(--bg);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--text-secondary);
+  .thumb-col {
+    flex-shrink: 0;
   }
   .page-label { flex: 1; font-size: 0.9rem; font-weight: 500; }
   .actions { display: flex; gap: 0.25rem; }

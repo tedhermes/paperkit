@@ -47,3 +47,121 @@ body {
   box-shadow: 0 4px 12px rgba(99,102,241,0.3);
 }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ─── Spinner ────────────────────────────────────────────────── */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── Empty State ─────────────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 2rem 0 1rem;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: 0.5rem; }
+.empty-state h3 { font-size: 1.1rem; margin-bottom: 0.3rem; }
+.empty-state p { color: var(--text-secondary); font-size: 0.9rem; }
+
+/* ─── File Info Bar (shared pattern) ──────────────────────────── */
+.file-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+}
+.file-icon { font-size: 1.3rem; flex-shrink: 0; }
+.file-info { flex: 1; min-width: 0; }
+.filename { font-weight: 600; font-size: 0.9rem; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-meta { color: var(--text-secondary); font-size: 0.8rem; }
+.btn-ghost {
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+/* ─── Error & Info Messages ───────────────────────────────────── */
+.error-msg {
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+.info-msg {
+  background: #fefce8;
+  color: #a16207;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  border: 1px solid #fde68a;
+}
+
+/* ─── Form Controls (shared) ──────────────────────────────────── */
+.form-group { margin-bottom: 1.25rem; }
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.form-row { display: flex; gap: 1rem; margin-bottom: 0.5rem; }
+.form-row .form-group { flex: 1; }
+.text-input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+.num-input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+.slider {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .form-row { flex-direction: column; }
+}
+
+/* ─── Preview Canvas ──────────────────────────────────────────── */
+.preview-wrap {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.preview-wrap canvas {
+  max-width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.preview-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  display: block;
+}

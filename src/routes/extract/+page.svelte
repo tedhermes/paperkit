@@ -1,6 +1,7 @@
 <script lang="ts">
   import DropZone from '$lib/components/DropZone.svelte';
   import ToolLayout from '$lib/components/ToolLayout.svelte';
+  import PageThumbnail from '$lib/components/PageThumbnail.svelte';
   import { extractPages, downloadBlob, validateFileSize } from '$lib/pdf/process';
   import { PDFDocument } from 'pdf-lib';
 
@@ -61,17 +62,17 @@
       <button onclick={clearFile} class="btn-ghost">Remove</button>
     </div>
 
-    <p class="select-hint">Select pages to extract into a new PDF. {selectedPages.size} page{selectedPages.size !== 1 ? 's' : ''} selected.</p>
+    <p class="summary-text">{selectedPages.size} page{selectedPages.size !== 1 ? 's' : ''} selected</p>
 
-    <div class="page-grid">
+    <div class="thumb-grid">
       {#each Array.from({ length: totalPages }, (_, i) => i + 1) as n}
-        <button
-          class="page-btn"
-          class:selected={selectedPages.has(n)}
-          onclick={() => togglePage(n)}
-        >
-          {n}
-        </button>
+        <PageThumbnail
+          {file}
+          pageNum={n}
+          width={130}
+          selected={selectedPages.has(n)}
+          onClick={() => togglePage(n)}
+        />
       {/each}
     </div>
 
@@ -106,33 +107,16 @@
     font-size: 0.85rem;
     font-weight: 500;
   }
-  .select-hint {
+  .summary-text {
     font-size: 0.9rem;
     color: var(--text-secondary);
     margin-bottom: 1rem;
   }
-  .page-grid {
+  .thumb-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.75rem;
     margin-bottom: 1.5rem;
-  }
-  .page-btn {
-    width: 44px;
-    height: 44px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--surface);
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: all 0.15s;
-  }
-  .page-btn:hover { border-color: var(--accent); }
-  .page-btn.selected {
-    background: var(--accent);
-    color: white;
-    border-color: var(--accent);
   }
   .error-msg {
     background: #fef2f2;

@@ -1,6 +1,7 @@
 <script lang="ts">
   import DropZone from '$lib/components/DropZone.svelte';
   import ToolLayout from '$lib/components/ToolLayout.svelte';
+  import PageThumbnail from '$lib/components/PageThumbnail.svelte';
   import { rotatePages, downloadBlob, validateFileSize } from '$lib/pdf/process';
   import { PDFDocument } from 'pdf-lib';
 
@@ -70,38 +71,35 @@
       <button onclick={clearFile} class="btn-ghost">Remove</button>
     </div>
 
-    <div class="angle-select">
-      <label>Rotation angle:</label>
-      <div class="angle-options">
-        {#each [90, 180, 270] as a}
-          <button
-            class="angle-btn"
-            class:selected={angle === a}
-            onclick={() => angle = a as 90 | 180 | 270}
-          >
-            {a}°
-          </button>
-        {/each}
-      </div>
+    <div class="pill-group">
+      {#each [90, 180, 270] as a}
+        <button
+          class="pill"
+          class:active={angle === a}
+          onclick={() => angle = a as 90 | 180 | 270}
+        >
+          {a}°
+        </button>
+      {/each}
     </div>
 
-    <div class="selection-controls">
-      <p class="select-hint">Select pages to rotate. {selectedPages.size} page{selectedPages.size !== 1 ? 's' : ''} selected.</p>
-      <div class="selection-buttons">
+    <div class="selection-bar">
+      <p class="summary-text">{selectedPages.size} page{selectedPages.size !== 1 ? 's' : ''} selected for {angle}° rotation</p>
+      <div class="selection-actions">
         <button class="btn-ghost" onclick={selectAll}>Select All</button>
         <button class="btn-ghost" onclick={selectNone}>Clear</button>
       </div>
     </div>
 
-    <div class="page-grid">
+    <div class="thumb-grid">
       {#each Array.from({ length: totalPages }, (_, i) => i + 1) as n}
-        <button
-          class="page-btn"
-          class:selected={selectedPages.has(n)}
-          onclick={() => togglePage(n)}
-        >
-          {n}
-        </button>
+        <PageThumbnail
+          {file}
+          pageNum={n}
+          width={130}
+          selected={selectedPages.has(n)}
+          onClick={() => togglePage(n)}
+        />
       {/each}
     </div>
 
@@ -135,73 +133,51 @@
     cursor: pointer;
     font-size: 0.85rem;
     font-weight: 500;
+    padding: 0.25rem 0.5rem;
   }
-  .angle-select {
-    margin-bottom: 1.5rem;
-  }
-  .angle-select label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-  .angle-options {
+  .pill-group {
     display: flex;
     gap: 0.5rem;
+    margin-bottom: 1.5rem;
   }
-  .angle-btn {
+  .pill {
     padding: 0.5rem 1.25rem;
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: 999px;
     background: var(--surface);
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 500;
     transition: all 0.15s;
+    font-family: inherit;
   }
-  .angle-btn:hover { border-color: var(--accent); }
-  .angle-btn.selected {
+  .pill:hover { border-color: var(--accent); }
+  .pill.active {
     background: var(--accent);
     color: white;
     border-color: var(--accent);
   }
-  .selection-controls {
+  .selection-bar {
     display: flex;
     align-items: center;
     gap: 1rem;
     margin-bottom: 1rem;
   }
-  .select-hint {
+  .summary-text {
     font-size: 0.9rem;
     color: var(--text-secondary);
     flex: 1;
+    margin: 0;
   }
-  .selection-buttons {
+  .selection-actions {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.25rem;
   }
-  .page-grid {
+  .thumb-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.75rem;
     margin-bottom: 1.5rem;
-  }
-  .page-btn {
-    width: 44px;
-    height: 44px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--surface);
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: all 0.15s;
-  }
-  .page-btn:hover { border-color: var(--accent); }
-  .page-btn.selected {
-    background: var(--accent);
-    color: white;
-    border-color: var(--accent);
   }
   .error-msg {
     background: #fef2f2;
