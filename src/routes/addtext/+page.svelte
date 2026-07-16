@@ -3,6 +3,7 @@
   import ToolLayout from '$lib/components/ToolLayout.svelte';
   import { addTextToPage, downloadBlob, validateFileSize } from '$lib/pdf/process';
   import { PDFDocument } from 'pdf-lib';
+  import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 
   let file = $state<File | null>(null);
   let totalPages = $state(0);

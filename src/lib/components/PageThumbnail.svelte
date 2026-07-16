@@ -7,6 +7,8 @@
     onClick?: () => void;
   } = $props();
 
+  import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
+
   let canvasEl = $state<HTMLCanvasElement | null>(null);
   let loaded = $state(false);
   let error = $state(false);
@@ -21,8 +23,7 @@
     async function render() {
       try {
         const pdfjs = await import('pdfjs-dist');
-        pdfjs.GlobalWorkerOptions.workerSrc =
-          'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
+        pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
 
         const buf = await file.arrayBuffer();
         if (cancelled) return;

@@ -3,6 +3,7 @@
   import ToolLayout from '$lib/components/ToolLayout.svelte';
   import { cropPage, downloadBlob, validateFileSize } from '$lib/pdf/process';
   import { PDFDocument } from 'pdf-lib';
+  import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 
   let file = $state<File | null>(null);
   let totalPages = $state(0);
@@ -57,10 +58,9 @@
     async function render() {
       try {
         const pdfjs = await import('pdfjs-dist');
-        pdfjs.GlobalWorkerOptions.workerSrc =
-          'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
+        pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
 
-        const buf = await f.arrayBuffer();
+        const buf = await file.arrayBuffer();
         if (cancelled) return;
 
         const doc = await pdfjs.getDocument({ data: buf }).promise;
