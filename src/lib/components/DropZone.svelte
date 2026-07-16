@@ -6,6 +6,7 @@
   } = $props();
 
   let dragging = $state(false);
+  let fileInput: HTMLInputElement | undefined = $state();
 
   function handleDrop(e: DragEvent) {
     e.preventDefault();
@@ -27,6 +28,7 @@
   class:active={dragging}
   role="button"
   tabindex="0"
+  onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput?.click(); } }}
   ondragover={(e) => { e.preventDefault(); dragging = true; }}
   ondragleave={() => dragging = false}
   ondrop={handleDrop}
@@ -38,6 +40,7 @@
     onchange={handleChange}
     class="file-input"
     id="file-upload"
+    bind:this={fileInput}
   />
   <label for="file-upload" class="drop-label">
     <div class="icon">📄</div>

@@ -11,15 +11,22 @@
   let rangeStart = $state(1);
   let rangeEnd = $state(1);
   let processing = $state(false);
+  let error = $state<string | null>(null);
 
   async function handleFile(files: File[]) {
+    error = null;
     file = files[0];
-    const buf = await file.arrayBuffer();
-    const doc = await PDFDocument.load(buf);
-    totalPages = doc.getPageCount();
-    selectedPages = new Set();
-    rangeEnd = totalPages;
-    rangeMode = 'all';
+    try {
+      const buf = await file.arrayBuffer();
+      const doc = await PDFDocument.load(buf);
+      totalPages = doc.getPageCount();
+      selectedPages = new Set();
+      rangeEnd = totalPages;
+      rangeMode = 'all';
+    } catch {
+      error = 'Could not read this PDF. The file may be corrupted or password-protected.';
+      file = null;
+    }
   }
 
   function togglePage(n: number) {
@@ -31,6 +38,7 @@
   async function handleSplit() {
     if (!file) return;
     processing = true;
+    error = null;
 
     let ranges: { start: number; end: number }[];
     if (rangeMode === 'all') {
@@ -41,19 +49,27 @@
       ranges = [{ start: rangeStart, end: Math.min(rangeEnd, totalPages) }];
     }
 
-    const results = await splitPDF(file, ranges);
-    if (results.length === 1) {
-      downloadBlob(results[0], `split-${file.name}`);
-    } else {
-      results.forEach((data, i) => {
-        downloadBlob(data, `split-${i + 1}-${file.name}`);
-      });
+    try {
+      const results = await splitPDF(file, ranges);
+      if (results.length === 1) {
+        downloadBlob(results[0], `split-${file.name}`);
+      } else {
+        results.forEach((data, i) => {
+          downloadBlob(data, `split-${i + 1}-${file.name}`);
+        });
+      }
+    } catch {
+      error = 'Failed to split the PDF. Please try again.';
     }
     processing = false;
   }
 
-  function clearFile() { file = null; totalPages = 0; selectedPages = new Set(); }
+  function clearFile() { file = null; totalPages = 0; selectedPages = new Set(); error = null; }
 </script>
+
+<svelte:head>
+  <title>PaperKit — Split PDF</title>
+</svelte:head>
 
 <ToolLayout title="Split PDF" description="Extract pages or split a PDF into multiple files.">
   {#if !file}
@@ -88,6 +104,10 @@
         <label>From: <input type="number" bind:value={rangeStart} min="1" max={totalPages} /></label>
         <label>To: <input type="number" bind:value={rangeEnd} min="1" max={totalPages} /></label>
       </div>
+    {/if}
+
+    {#if error}
+      <div class="error-msg">{error}</div>
     {/if}
 
     <button class="btn-primary" onclick={handleSplit} disabled={processing || (rangeMode === 'selected' && selectedPages.size === 0)}>
@@ -137,8 +157,8 @@
     margin-bottom: 1.5rem;
   }
   .page-btn {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border: 1px solid var(--border);
     border-radius: 8px;
     background: var(--surface);
@@ -166,6 +186,19 @@
     border-radius: 6px;
     font-size: 0.9rem;
     margin-left: 0.4rem;
+  }
+
+  .error-msg {
+    background: #fef2f2;
+    color: #dc2626;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 640px) {
+    .range-inputs { flex-direction: column; }
   }
 
 </style>

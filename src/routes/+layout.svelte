@@ -1,18 +1,15 @@
 <script lang="ts">
   import '../app.css';
+  import { page } from '$app/stores';
   let { children } = $props();
 </script>
-
-<svelte:head>
-  <title>PaperKit</title>
-</svelte:head>
 
 <header>
   <nav>
     <a href="/" class="logo">PaperKit</a>
     <div class="nav-links">
-      <a href="/split">Split</a>
-      <a href="/merge">Merge</a>
+      <a href="/split" aria-current={$page.url.pathname === '/split' ? 'page' : undefined}>Split</a>
+      <a href="/merge" aria-current={$page.url.pathname === '/merge' ? 'page' : undefined}>Merge</a>
     </div>
   </nav>
 </header>
@@ -66,5 +63,9 @@
     color: var(--text-secondary);
     font-size: 0.8rem;
     border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 640px) {
+    .nav-links { gap: 1rem; }
   }
 </style>

@@ -7,6 +7,10 @@
   ];
 </script>
 
+<svelte:head>
+  <title>PaperKit — PDF tools that stay on your device</title>
+</svelte:head>
+
 <section class="hero">
   <h1>PDF tools that stay on your device.</h1>
   <p>Split, merge, and more — all processing happens in your browser. No uploads, no servers, no privacy concerns.</p>
@@ -14,7 +18,7 @@
 
 <section class="tools">
   {#each tools as tool}
-    <a href={tool.href} class="tool-card" class:disabled={!tool.available}>
+    <a href={tool.href} class="tool-card" class:disabled={!tool.available} aria-disabled={!tool.available ? true : undefined} tabindex={!tool.available ? -1 : undefined}>
       <h3>{tool.name}</h3>
       <p>{tool.desc}</p>
       {#if !tool.available}
@@ -70,12 +74,17 @@
     position: absolute;
     top: 0.75rem;
     right: 0.75rem;
-    background: var(--border);
+    background: #94a3b8;
     padding: 0.15rem 0.5rem;
     border-radius: 999px;
     font-size: 0.7rem;
     font-weight: 600;
     text-transform: uppercase;
-    color: var(--text-secondary);
+    color: #ffffff;
+  }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 1.5rem; }
+    .tools { grid-template-columns: 1fr; }
   }
 </style>
