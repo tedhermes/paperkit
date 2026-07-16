@@ -1,42 +1,44 @@
-# sv
+# PaperKit
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+**Client-side PDF toolkit — 13 tools. Zero uploads.**
 
-## Creating a project
+[![Live Demo](https://img.shields.io/badge/demo-paperkit.netlify.app-6366f1)](https://paperkit.netlify.app)
+[![Tech](https://img.shields.io/badge/built%20with-SvelteKit%205%20%2B%20pdf.js%20%2B%20pdf--lib-ff3e00)](https://github.com/tedhermes/paperkit)
 
-If you're seeing this, you've probably already done this step. Congrats!
+All processing happens in your browser. No files leave your device.
 
-```sh
-# create a new project
-npx sv create my-app
-```
+## Tools
 
-To recreate this project with the same configuration:
+| Category | Tools |
+|----------|-------|
+| **Page Management** | Split, Merge, Reorder, Remove, Extract, Crop, Rotate |
+| **Content** | Watermark, Page Numbers, Add Text |
+| **Security** | Protect, Unlock |
+| **More** | Compress |
 
-```sh
-# recreate this project
-npx sv@0.16.3 create --template minimal --types ts --no-install paperkit
-```
+## Highlights
 
-## Developing
+- **Page previews** — pdf.js renders real page thumbnails for Reorder, Remove, Extract, Split
+- **Visual editors** — Canvas-based crop tool with drag handles, click-to-place text placement
+- **Live previews** — See watermark and page numbers on the first page before processing
+- **Privacy-first** — No server, no tracking, no CDN. Everything runs locally via WebAssembly
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Tech Stack
 
-```sh
+- [SvelteKit 5](https://kit.svelte.dev/) (adapter-static)
+- [pdf-lib](https://github.com/Hopding/pdf-lib) — PDF manipulation
+- [pdf.js](https://github.com/mozilla/pdf.js) — Page rendering
+- [Netlify](https://netlify.com) — Static hosting
+
+## Run Locally
+
+```bash
+git clone https://github.com/tedhermes/paperkit.git
+cd paperkit
+npm install
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+## License
 
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+MIT
