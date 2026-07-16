@@ -1,5 +1,14 @@
 import { PDFDocument } from 'pdf-lib';
 
+export const MAX_PDF_SIZE = 100 * 1024 * 1024; // 100 MB
+
+export function validateFileSize(file: File): string | null {
+  if (file.size > MAX_PDF_SIZE) {
+    return `File "${file.name}" is too large. Maximum size is 100 MB.`;
+  }
+  return null;
+}
+
 export async function splitPDF(
   file: File,
   pageRanges: { start: number; end: number }[]
@@ -34,12 +43,17 @@ export async function mergePDFs(files: File[]): Promise<Uint8Array> {
   return await mergedDoc.save();
 }
 
+export function sanitizeFilename(name: string): string {
+  return name.replace(/[^a-zA-Z0-9._-]/g, '_');
+}
+
 export function downloadBlob(data: Uint8Array, filename: string) {
+  const safe = sanitizeFilename(filename);
   const blob = new Blob([data], { type: 'application/pdf' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = filename;
+  a.download = safe;
   a.click();
   URL.revokeObjectURL(url);
 }
