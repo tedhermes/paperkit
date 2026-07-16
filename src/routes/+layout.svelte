@@ -6,7 +6,10 @@
 
 <header>
   <nav>
-    <a href="/" class="logo">PaperKit</a>
+    <a href="/" class="logo">
+      <img src="/paperkit-logo.svg" alt="PaperKit" class="logo-icon" />
+      PaperKit
+    </a>
     <div class="nav-links">
       <a href="/split" aria-current={$page.url.pathname === '/split' ? 'page' : undefined}>Split</a>
       <a href="/merge" aria-current={$page.url.pathname === '/merge' ? 'page' : undefined}>Merge</a>
@@ -42,6 +45,13 @@
     font-size: 1.25rem;
     color: var(--text);
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .logo-icon {
+    height: 28px;
+    width: 28px;
   }
   .nav-links { display: flex; gap: 2rem; }
   .nav-links a {

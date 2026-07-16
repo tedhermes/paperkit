@@ -52,6 +52,7 @@
 <style>
   .dropzone {
     border: 2px dashed var(--border);
+    border-top: 3px solid var(--accent);
     border-radius: var(--radius);
     padding: 2.5rem 2rem;
     text-align: center;
@@ -61,7 +62,7 @@
   }
   .dropzone.active {
     border-color: var(--accent);
-    background: #fef2f2;
+    background: var(--accent-light);
   }
   .file-input {
     position: absolute;
