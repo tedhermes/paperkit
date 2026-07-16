@@ -74,8 +74,7 @@
     async function render() {
       try {
         const pdfjs = await import('pdfjs-dist');
-        pdfjs.GlobalWorkerOptions.workerSrc =
-          'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
+        pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
 
         const buf = await f.arrayBuffer();
         if (cancelled) return;
