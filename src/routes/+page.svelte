@@ -41,6 +41,16 @@
 </svelte:head>
 
 <section class="hero">
+  <div class="hero-illustration" aria-hidden="true">
+    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="16" y="8" width="48" height="64" rx="6" fill="var(--accent-light)" stroke="var(--accent)" stroke-width="2"/>
+      <line x1="28" y1="28" x2="52" y2="28" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="28" y1="38" x2="48" y2="38" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="28" y1="48" x2="44" y2="48" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="28" cy="60" r="4" fill="var(--accent)"/>
+      <line x1="30" y1="58" x2="42" y2="46" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </div>
   <h1>PDF tools that stay on your device.</h1>
   <p>Split, merge, and more — all processing happens in your browser. No uploads, no servers, no privacy concerns.</p>
 </section>
@@ -64,6 +74,12 @@
   .hero {
     text-align: center;
     padding: 3rem 0 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero-illustration {
+    margin-bottom: 1.5rem;
   }
   .hero h1 {
     font-size: 2.2rem;
