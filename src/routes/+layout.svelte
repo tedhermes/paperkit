@@ -76,6 +76,12 @@
 
 <svelte:head>
   <title>PaperKit</title>
+  <meta name="description" content="Split and merge PDFs in your browser. No uploads, no servers, privacy-first." />
+  <meta property="og:title" content="PaperKit" />
+  <meta property="og:description" content="PDF tools that stay on your device. Split, merge, and more — all in your browser." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="/paperkit-logo.svg" type="image/svg+xml" />
 </svelte:head>
 
 <svelte:window onkeydown={handleEsc} onclick={handleWindowClick} />
@@ -166,7 +172,7 @@
 <main>{@render children()}</main>
 
 <footer>
-  <p>All processing happens in your browser. No files are uploaded.</p>
+  <p>Built with pdf-lib &middot; <a href="https://github.com/tedhermes/paperkit" target="_blank" rel="noopener noreferrer" class="footer-link">Open source</a></p>
 </footer>
 
 <style>
@@ -388,6 +394,13 @@
     color: var(--text-secondary);
     font-size: 0.8rem;
     border-top: 1px solid var(--border);
+  }
+  .footer-link {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .footer-link:hover {
+    text-decoration: underline;
   }
 
   /* ── Responsive ───────────────────────────────────── */

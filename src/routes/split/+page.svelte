@@ -155,7 +155,11 @@
     {/if}
 
     <button class="btn-primary" onclick={handleSplit} disabled={processing || (rangeMode === 'selected' && selectedPages.size === 0)}>
-      {processing ? 'Processing...' : 'Split PDF'}
+      {#if processing}
+        <span class="spinner"></span> Processing&hellip;
+      {:else}
+        Split PDF
+      {/if}
     </button>
   {/if}
 </ToolLayout>

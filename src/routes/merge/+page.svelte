@@ -106,7 +106,11 @@
       {/if}
 
       <button class="btn-primary" onclick={handleMerge} disabled={processing || fileInfos.length < 2}>
-        {processing ? 'Merging...' : `Merge ${fileInfos.length} PDFs`}
+        {#if processing}
+          <span class="spinner"></span> Merging&hellip;
+        {:else}
+          Merge {fileInfos.length} PDFs
+        {/if}
       </button>
     </div>
   {/if}

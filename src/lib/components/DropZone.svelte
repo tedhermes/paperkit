@@ -11,7 +11,8 @@
   function handleDrop(e: DragEvent) {
     e.preventDefault();
     dragging = false;
-    const files = Array.from(e.dataTransfer?.files ?? []);
+    const files = Array.from(e.dataTransfer?.files ?? [])
+      .filter(f => f.name.toLowerCase().endsWith('.pdf') || f.type === 'application/pdf');
     if (files.length > 0) onFiles(files);
   }
 
@@ -43,7 +44,7 @@
     bind:this={fileInput}
   />
   <label for="file-upload" class="drop-label">
-    <div class="icon">📄</div>
+    <div class="icon" aria-hidden="true">📄</div>
     <p class="main-text">Drop PDF{multiple ? 's' : ''} here or click to browse</p>
     <p class="sub-text">{accept} files only</p>
   </label>
