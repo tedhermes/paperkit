@@ -25,6 +25,7 @@
         { name: 'Watermark', href: '/watermark' },
         { name: 'Page Numbers', href: '/pagenumbers' },
         { name: 'Add Text', href: '/addtext' },
+        { name: 'Metadata', href: '/metadata' },
       ]
     },
     {

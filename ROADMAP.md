@@ -15,7 +15,7 @@ Features that are planned but require additional libraries or significant effort
 
 | Feature | Status | Notes |
 |---------|--------|-------|
-| **Metadata Editor** | Planned | View and edit PDF metadata: title, author, subject, keywords. pdf-lib supports `setTitle()`, `setAuthor()`, etc. |
+| **Metadata Editor** | ✅ Done | View and edit PDF metadata: title, author, subject, keywords. pdf-lib supports `setTitle()`, `setAuthor()`, etc. |
 | **Form Fill** | Planned | Fill PDF form fields (text inputs, checkboxes, dropdowns). pdf-lib has full form support via `getForm()`. |
 | **Form Creator** | Planned | Add new form fields to a PDF. More complex — requires field positioning UI. |
 

@@ -319,6 +319,42 @@ export async function compressPDF(_file: File): Promise<Uint8Array> {
   );
 }
 
+// ─── Metadata ─────────────────────────────────────────────────────
+
+export interface PDFMetadata {
+  title: string;
+  author: string;
+  subject: string;
+  keywords: string;
+  producer: string;
+  creator: string;
+}
+
+export async function readMetadata(file: File): Promise<PDFMetadata> {
+  const srcDoc = await loadPDFDoc(file);
+  return {
+    title: srcDoc.getTitle() ?? '',
+    author: srcDoc.getAuthor() ?? '',
+    subject: srcDoc.getSubject() ?? '',
+    keywords: srcDoc.getKeywords() ?? '',
+    producer: srcDoc.getProducer() ?? '',
+    creator: srcDoc.getCreator() ?? '',
+  };
+}
+
+export async function editMetadata(
+  file: File,
+  updates: { title?: string; author?: string; subject?: string; keywords?: string }
+): Promise<Uint8Array> {
+  const srcDoc = await loadPDFDoc(file);
+  if (updates.title !== undefined) srcDoc.setTitle(updates.title);
+  if (updates.author !== undefined) srcDoc.setAuthor(updates.author);
+  if (updates.subject !== undefined) srcDoc.setSubject(updates.subject);
+  if (updates.keywords !== undefined) srcDoc.setKeywords(updates.keywords);
+  srcDoc.setModificationDate(new Date());
+  return await srcDoc.save();
+}
+
 // ─── Rotate ───────────────────────────────────────────────────────
 
 export async function rotatePages(

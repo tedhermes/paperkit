@@ -18,6 +18,7 @@
         { name: 'Watermark', desc: 'Add text watermarks with custom opacity.', href: '/watermark', emoji: '💧' },
         { name: 'Page Numbers', desc: 'Add page numbers with custom position and format.', href: '/pagenumbers', emoji: '🔢' },
         { name: 'Add Text', desc: 'Place text anywhere on a page.', href: '/addtext', emoji: '📝' },
+        { name: 'Metadata', desc: 'View and edit title, author, subject, keywords.', href: '/metadata', emoji: '🏷️' },
       ],
     },
     {
