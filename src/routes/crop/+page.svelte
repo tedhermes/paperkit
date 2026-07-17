@@ -302,8 +302,8 @@
       <button onclick={clearFile} class="btn-ghost">Remove</button>
     </div>
 
-    <div class="form-group">
-      <label>Page to crop:</label>
+    <fieldset class="form-group">
+      <legend>Page to crop:</legend>
       <div class="page-grid">
         {#each Array.from({ length: totalPages }, (_, i) => i + 1) as n}
           <button
@@ -315,7 +315,7 @@
           </button>
         {/each}
       </div>
-    </div>
+    </fieldset>
 
     <!-- Canvas area -->
     <div class="canvas-container" bind:this={containerEl}>
@@ -382,7 +382,8 @@
   .form-group {
     margin-bottom: 1.25rem;
   }
-  .form-group label {
+  .form-group label,
+  .form-group legend {
     font-size: 0.9rem;
     font-weight: 500;
     display: block;

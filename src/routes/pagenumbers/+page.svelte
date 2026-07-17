@@ -164,8 +164,8 @@
       <input id="pn-format" type="text" bind:value={format} class="text-input" placeholder="e.g. {page} / {total}" />
     </div>
 
-    <div class="form-group">
-      <label>Position</label>
+    <fieldset class="form-group">
+      <legend>Position</legend>
       <div class="position-options">
         {#each ['bottom-center', 'bottom-right', 'bottom-left', 'top-center'] as pos}
           <button
@@ -177,7 +177,7 @@
           </button>
         {/each}
       </div>
-    </div>
+    </fieldset>
 
     <div class="form-row">
       <div class="form-group">

@@ -59,7 +59,7 @@
   class="thumb-wrapper"
   class:selected
   class:loaded
-  {onclick}
+  onclick={onClick}
   type="button"
   aria-label="Page {pageNum}{selected ? ', selected' : ''}"
 >
@@ -68,7 +68,7 @@
   {:else if !loaded}
     <div class="thumb-placeholder pulse">{pageNum}</div>
   {/if}
-  <canvas bind:this={canvasEl} class="thumb-canvas" class:visible={loaded} />
+  <canvas bind:this={canvasEl} class="thumb-canvas" class:visible={loaded}></canvas>
   <span class="page-label">{pageNum}</span>
 </button>
 
