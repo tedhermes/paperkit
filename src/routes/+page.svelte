@@ -26,6 +26,7 @@
       tools: [
         { name: 'Protect', desc: 'Add password protection. (Limited — see Roadmap)', href: '/protect', emoji: '🔒' },
         { name: 'Unlock', desc: 'Remove password. (Limited — see Roadmap)', href: '/unlock', emoji: '🔓' },
+        { name: 'Redact', desc: 'Black out sensitive content with rectangles.', href: '/redact', emoji: '⬛' },
       ],
     },
     {

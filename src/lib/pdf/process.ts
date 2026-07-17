@@ -311,6 +311,44 @@ export async function addTextToPage(
   return await srcDoc.save();
 }
 
+// ─── Redact ───────────────────────────────────────────────────────
+
+export interface RedactionRect {
+  x: number;       // PDF points, from top-left
+  y: number;
+  width: number;
+  height: number;
+}
+
+/** Redact pages by drawing black rectangles over sensitive areas */
+export async function redactPDF(
+  file: File,
+  pageNums: number[],
+  rects: RedactionRect[]
+): Promise<Uint8Array> {
+  const srcDoc = await loadPDFDoc(file);
+
+  for (const num of pageNums) {
+    const page = srcDoc.getPage(num - 1);
+    const pageHeight = page.getSize().height;
+
+    for (const rect of rects) {
+      // Convert from top-left (user coordinates) to bottom-left (PDF coordinates)
+      const pdfY = pageHeight - rect.y - rect.height;
+
+      page.drawRectangle({
+        x: rect.x,
+        y: pdfY,
+        width: rect.width,
+        height: rect.height,
+        color: rgb(0, 0, 0),
+      });
+    }
+  }
+
+  return await srcDoc.save();
+}
+
 // ─── Compress (placeholder) ───────────────────────────────────────
 
 export async function compressPDF(_file: File): Promise<Uint8Array> {

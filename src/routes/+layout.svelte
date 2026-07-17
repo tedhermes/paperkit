@@ -33,6 +33,7 @@
       tools: [
         { name: 'Protect', href: '/protect' },
         { name: 'Unlock', href: '/unlock' },
+        { name: 'Redact', href: '/redact' },
       ]
     },
   ];

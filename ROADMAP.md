@@ -33,7 +33,7 @@ Features that are planned but require additional libraries or significant effort
 |---------|--------|-------|
 | **Password Protect** | Blocked | pdf-lib does not support native PDF encryption. Requires pdf.js or another library with AES-128/256 encryption support. |
 | **Remove Password** | Blocked | Same limitation — pdf-lib cannot decrypt password-protected PDFs. |
-| **Redact** | Planned | Draw opaque black rectangles over sensitive areas. Technically doable with pdf-lib's `drawRectangle()`. |
+| **Redact** | ✅ Done | Draw opaque black rectangles over sensitive areas with a click-to-place UI. Uses pdf-lib's `drawRectangle()`. |
 
 ## Advanced Editing
 
