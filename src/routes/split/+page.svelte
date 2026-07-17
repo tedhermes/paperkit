@@ -137,14 +137,14 @@
       </div>
     {:else if rangeMode === 'range'}
       <div class="range-inputs">
-        <label>
-          From:
-          <input type="number" bind:value={rangeStart} min="1" max={totalPages} />
-        </label>
-        <label>
-          To:
-          <input type="number" bind:value={rangeEnd} min="1" max={totalPages} />
-        </label>
+        <div class="form-group">
+          <label for="range-start">From:</label>
+          <input id="range-start" type="number" bind:value={rangeStart} min="1" max={totalPages} class="num-input" />
+        </div>
+        <div class="form-group">
+          <label for="range-end">To:</label>
+          <input id="range-end" type="number" bind:value={rangeEnd} min="1" max={totalPages} class="num-input" />
+        </div>
       </div>
     {/if}
 

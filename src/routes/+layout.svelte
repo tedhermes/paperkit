@@ -410,5 +410,17 @@
   @media (max-width: 640px) {
     .desktop-only { display: none; }
     .mobile-only { display: flex; }
+    header { padding: 0 1rem; }
+    nav { height: auto; min-height: 56px; flex-wrap: wrap; }
+    main { padding: 1.5rem 1rem; }
+    .dropdown-panel {
+      position: static;
+      min-width: auto;
+      box-shadow: none;
+      border: none;
+      padding: 0.5rem 0;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
   }
 </style>
