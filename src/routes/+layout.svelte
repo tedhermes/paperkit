@@ -121,9 +121,9 @@
           </div>
         {/if}
       </div>
-      <a href="/split" class="nav-link" class:active={currentPath === '/split'}>Split</a>
-      <a href="/merge" class="nav-link" class:active={currentPath === '/merge'}>Merge</a>
-      <a href="/watermark" class="nav-link" class:active={currentPath === '/watermark'}>Watermark</a>
+      <a href="/split" class="nav-link" class:active={currentPath === '/split'} aria-current={currentPath === '/split' ? 'page' : undefined}>Split</a>
+      <a href="/merge" class="nav-link" class:active={currentPath === '/merge'} aria-current={currentPath === '/merge' ? 'page' : undefined}>Merge</a>
+      <a href="/watermark" class="nav-link" class:active={currentPath === '/watermark'} aria-current={currentPath === '/watermark' ? 'page' : undefined}>Watermark</a>
     </div>
 
     <!-- Mobile hamburger -->
